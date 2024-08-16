@@ -47,8 +47,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">No. of Items Reserved</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody id="reservedItemsTableBody">
@@ -59,22 +60,29 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Dummy data for demonstration (this should come from your backend)
-            const reservedItemsData = [
-                { username: 'john_doe', itemCount: 5 },
-                { username: 'jane_doe', itemCount: 8 },
-                { username: 'user123', itemCount: 3 }
-            ];
+            // Retrieve reserved items from local storage
+            const reservedItems = JSON.parse(localStorage.getItem('reservedItems'));
 
             const tableBody = document.getElementById('reservedItemsTableBody');
 
-            reservedItemsData.forEach(data => {
+            if (reservedItems && reservedItems.length > 0) {
+                reservedItems.forEach(data => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${data.item}</td>
+                        <td>${data.quantity}</td>
+                        <td>$${data.price}</td>
+                    `;
+                    tableBody.append(row);
+                });
+            } else {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${data.username}</td>
-                    <td>${data.itemCount}</td>
+                    <td colspan="3" class="text-center">No items reserved</td>
                 `;
                 tableBody.append(row);
-            });
+            }
         });
     </script>
+</body>
+</html>
