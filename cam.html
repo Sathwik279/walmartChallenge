@@ -182,27 +182,27 @@
 
         function initializeBarcodeScanner() {
             Quagga.init({
-                inputStream: {
-                    name: "Live",
-                    type: "LiveStream",
-                    target: document.querySelector('#video')
-                },
-                decoder: {
-                    readers: ["code_128_reader", "ean_reader", "upc_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "i2of5_reader", "2of5_reader", "code_93_reader"]
-                }
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#video')
+            },
+            decoder: {
+                readers: ["code_128_reader", "ean_reader", "upc_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "i2of5_reader", "2of5_reader", "code_93_reader"]
+            }
             }, function(err) {
-                if (err) {
-                    console.log("Error initializing barcode scanner: ", err);
-                    alert("Unable to initialize barcode scanner. Please try again.");
-                    return;
-                }
-                Quagga.start();
-                Quagga.onDetected(function(result) {
-                    const code = result.codeResult.code;
-                    console.log("Barcode detected: ", code);
-                    storeBarcodeInLocalStorage(code);
-                    // addItemToCart(code);
-                });
+            if (err) {
+                console.log("Error initializing barcode scanner: ", err);
+                alert("Unable to initialize barcode scanner. Please try again.");
+                return;
+            }
+            Quagga.start();
+            Quagga.onDetected(function(result) {
+                const code = result.codeResult.code;
+                console.log("Barcode detected: ", code);
+                storeBarcodeInLocalStorage(code);
+                // addItemToCart(code);
+            });
             });
         }
 
@@ -215,21 +215,23 @@
                 items = JSON.parse(localStorage.getItem('items'));
             }
 
+            // Check if the item is already present in the array
+            const existingItem = items.find(item => item.code === code);
+            if (existingItem) {
+                console.log("Item already exists in the cart.");
+                return;
+            }
+
             // Create a new item object
-            
-
-            // Store the updated array in local storage
-           
-
-            
-            let newItem = { name: 'Oneplus Earpods', price: 4566, quantity: 1 };
+            let newItem = { code: code, name: 'Oneplus Earpods', price: 4566, quantity: 1 };
 
             // Add the new item to the array
             items.push(newItem);
             localStorage.setItem('items', JSON.stringify(items));
+
+            alert("Item added to cart.");
             // console.log(`Item: ${newItem.name}, Price: ${newItem.price}, Quantity: ${newItem.quantity}`);
         }
-        
 
         // function addItemToCart(code) {
         //     const cartTable = document.getElementById('cart').getElementsByTagName('tbody')[0];
