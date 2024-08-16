@@ -165,18 +165,42 @@
         function startCamera() {
             const video = document.getElementById('video');
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
+            navigator.mediaDevices.enumerateDevices()
+            .then(function(devices) {
+            let rearCamera = devices.find(device => device.kind === 'videoinput' && device.label.includes('rear'));
+            let frontCamera = devices.find(device => device.kind === 'videoinput' && device.label.includes('front'));
+            if (rearCamera) {
+                navigator.mediaDevices.getUserMedia({ video: { deviceId: rearCamera.deviceId } })
                 .then(function(stream) {
-                    video.srcObject = stream;
-                    video.play();
-                    initializeBarcodeScanner();
+                video.srcObject = stream;
+                video.play();
+                initializeBarcodeScanner();
                 })
                 .catch(function(error) {
-                    console.log("Error accessing camera: ", error);
-                    alert("Unable to access camera. Please check your permissions and try again.");
+                console.log("Error accessing camera: ", error);
+                alert("Unable to access camera. Please check your permissions and try again.");
+                });
+            } else if (frontCamera) {
+                navigator.mediaDevices.getUserMedia({ video: { deviceId: frontCamera.deviceId } })
+                .then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+                initializeBarcodeScanner();
+                })
+                .catch(function(error) {
+                console.log("Error accessing camera: ", error);
+                alert("Unable to access camera. Please check your permissions and try again.");
                 });
             } else {
-                alert("Camera access is not supported by your browser.");
+                alert("No camera found.");
+            }
+            })
+            .catch(function(error) {
+            console.log("Error enumerating devices: ", error);
+            alert("Unable to enumerate devices. Please try again.");
+            });
+            } else {
+            alert("Camera access is not supported by your browser.");
             }
         }
 
