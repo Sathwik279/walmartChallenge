@@ -1,0 +1,252 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Camera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        video {
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera Access Example</h1>
+    <video id="video" autoplay></video>
+    <br>
+    <button onclick="startCamera()">Start Camera</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <script>
+        function startCamera() {
+            const video = document.getElementById('video');
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                    initializeBarcodeScanner();
+                })
+                .catch(function(error) {
+                    console.log("Error accessing camera: ", error);
+                    alert("Unable to access camera. Please check your permissions and try again.");
+                });
+            } else {
+                alert("Camera access is not supported by your browser.");
+            }
+        }
+
+        function initializeBarcodeScanner() {
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#video')
+                },
+                decoder: {
+                    readers: ["code_128_reader", "ean_reader", "upc_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "i2of5_reader", "2of5_reader", "code_93_reader"]
+                }
+            }, function(err) {
+                if (err) {
+                    console.log("Error initializing barcode scanner: ", err);
+                    alert("Unable to initialize barcode scanner. Please try again.");
+                    return;
+                }
+                Quagga.start();
+                Quagga.onDetected(function(result) {
+                    const code = result.codeResult.code;
+                    console.log("Barcode detected: ", code);
+                    storeBarcodeInLocalStorage(code);
+                });
+            });
+        }
+
+        function storeBarcodeInLocalStorage(code) {
+            let storedCodes = JSON.parse(localStorage.getItem('barcodes')) || [];
+            if (!storedCodes.includes(code)) {
+                storedCodes.push(code);
+                localStorage.setItem('barcodes', JSON.stringify(storedCodes));
+                alert("Barcode saved: " + code);
+            }
+        }
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Camera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        video {
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        table {
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera Access Example</h1>
+    <video id="video" autoplay></video>
+    <br>
+    <button onclick="startCamera()">Start Camera</button>
+
+    <!-- Cart Table -->
+    <h2>Cart</h2>
+    <table id="cart">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Items will be added here -->
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <script>
+        function startCamera() {
+            const video = document.getElementById('video');
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                    initializeBarcodeScanner();
+                })
+                .catch(function(error) {
+                    console.log("Error accessing camera: ", error);
+                    alert("Unable to access camera. Please check your permissions and try again.");
+                });
+            } else {
+                alert("Camera access is not supported by your browser.");
+            }
+        }
+
+        function initializeBarcodeScanner() {
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#video')
+                },
+                decoder: {
+                    readers: ["code_128_reader", "ean_reader", "upc_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "i2of5_reader", "2of5_reader", "code_93_reader"]
+                }
+            }, function(err) {
+                if (err) {
+                    console.log("Error initializing barcode scanner: ", err);
+                    alert("Unable to initialize barcode scanner. Please try again.");
+                    return;
+                }
+                Quagga.start();
+                Quagga.onDetected(function(result) {
+                    const code = result.codeResult.code;
+                    console.log("Barcode detected: ", code);
+                    storeBarcodeInLocalStorage(code);
+                    // addItemToCart(code);
+                });
+            });
+        }
+
+        function storeBarcodeInLocalStorage(code) {
+            let items = [];
+
+            // Check if there are existing items in local storage
+            if (localStorage.getItem('items')) {
+                // Retrieve existing items from local storage
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+
+            // Create a new item object
+            
+
+            // Store the updated array in local storage
+           
+
+            
+            let newItem = { name: 'Oneplus Earpods', price: 4566, quantity: 1 };
+
+            // Add the new item to the array
+            items.push(newItem);
+            localStorage.setItem('items', JSON.stringify(items));
+            // console.log(`Item: ${newItem.name}, Price: ${newItem.price}, Quantity: ${newItem.quantity}`);
+        }
+        
+
+        // function addItemToCart(code) {
+        //     const cartTable = document.getElementById('cart').getElementsByTagName('tbody')[0];
+            
+        //     // For this example, we'll assume every barcode corresponds to an apple
+        //     const itemName = 'Apple';
+        //     const itemImageSrc = 'https://via.placeholder.com/50'; // Replace with the URL of an apple image
+
+        //     const newRow = cartTable.insertRow();
+        //     const nameCell = newRow.insertCell(0);
+        //     const imageCell = newRow.insertCell(1);
+            
+        //     nameCell.textContent = itemName;
+        //     const imgElement = document.createElement('img');
+        //     imgElement.src = itemImageSrc;
+        //     imageCell.appendChild(imgElement);
+        // }
+    </script>
+</body>
+</html>

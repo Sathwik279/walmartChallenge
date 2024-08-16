@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .user-info h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .recent-purchases, .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .recent-purchases h2, .contact-info h2 {
+            font-size: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .recent-purchases ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recent-purchases li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="./img/image.png" alt="User Profile Picture" class="profile-picture">
+            <div class="user-info">
+                <h1>Username: Dave Johnson</h1>
+                <p>User ID: AG4LYW4SR34K0NX7WCUNDERG5</p>
+            </div>
+        </div>
+        <div class="recent-purchases">
+            <h2>Recently Purchased Items</h2>
+            <ul>
+                <li>Item 1 - Purchased on 08/10/2024</li>
+                <li>Item 2 - Purchased on 08/05/2024</li>
+                <li>Item 3 - Purchased on 07/30/2024</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <h2>Contact Information</h2>
+            <p>Address: 123 Main Street, Los Angeles, CA 90001</p>
+            <p>Phone: (123) 456-7890</p>
+            <p>Email: dave.johnson@example.com</p>
+        </div>
+    </div>
+</body>
+</html>
