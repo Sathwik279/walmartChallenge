@@ -185,21 +185,34 @@
 
         <div class="checkout-right">
             <div class="shopping-cart">
-                <div class="section-title">Shopping Cart</div>
-                <div class="cart-item">
-                    Subtotal: $38.00<br>
-                    Shipping Fee: Free<br>
-                    Tax: $4.00<br>
-                    <div class="cart-summary">Order Total: $42.00</div>
-                </div>
-                <div class="cart-item">
-                    ITEM: Drip Coffee Funnel<br>
-                    QTY: 1<br>
-                    PRICE: $38.00<br>
-                </div>
-                <a href="#">Edit</a>
+            <div class="section-title">Shopping Cart</div>
+            <div class="cart-item">
+                Subtotal: <span id="subtotal">$38.00</span><br>
+                Shipping Fee: Free<br>
+                Tax: $4.00<br>
+                <div class="cart-summary">Order Total: <span id="order-total">$42.00</span></div>
+            </div>
+            <div class="cart-item">
+                ITEM: Drip Coffee Funnel<br>
+                QTY: 1<br>
+                PRICE: $38.00<br>
+            </div>
+            <a href="#">Edit</a>
             </div>
         </div>
-    </div>
+        </div>
+        <script>
+            // Retrieve subtotal from local storage
+            var subtotal = parseFloat(localStorage.getItem('subtotal'));
+            var shippingFee = 0;
+            var tax = 4.00;
+            
+            // Calculate order total
+            var orderTotal = subtotal + shippingFee + tax;
+            
+            // Update the value of Subtotal and Order Total
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('order-total').textContent = '$' + orderTotal.toFixed(2);
+            </script>
 </body>
 </html>
