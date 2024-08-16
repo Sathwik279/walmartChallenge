@@ -18,6 +18,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide the content initially */
         }
         .header {
             text-align: center;
@@ -44,10 +45,28 @@
             width: 50px;
             height: auto;
         }
+        .spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="spinner" id="spinner"></div> <!-- Loading Spinner -->
+
+    <div class="container" id="content">
         <div class="header">
             <h1>Checkout Confirmation</h1>
             <img src="./img/checked.png" alt="Success Logo">
@@ -55,13 +74,24 @@
         <div class="details">
             <p><strong>Username:</strong> johndoe123</p>
             <p><strong>ID:</strong> 001234</p>
-            <p><strong>Price:</strong> $49.99</p>
+            <p><strong>Price:</strong> $<span id="subtotal"></span></p>
             <p><strong>Checkout ID:</strong> CHK987654</p>
         </div>
         <div class="log">
-            <img src="checkmark_icon.png" alt="Checkmark Icon">
+            <!-- <img src="checkmark_icon.png" alt="Checkmark Icon"> -->
             <p>Checkout Successful!</p>
         </div>
     </div>
+
+    <script>
+        // Display spinner for 2 seconds, then show the content
+        setTimeout(function() {
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        }, 2000);
+
+        // Set subtotal value from local storage
+        document.getElementById('subtotal').innerText = Number(localStorage.getItem('subtotal')) + 4;
+    </script>
 </body>
 </html>
