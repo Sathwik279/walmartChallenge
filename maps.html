@@ -5,15 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Location in Store</title>
     <style>
+        h1
+        {
+            margin-bottom: 30px;
+            background-color: beige;
+            border-radius: 20px;
+            color: brown;
+        }
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            background-color: lightgreen;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            color: green;
+        .product-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product {
+            position: relative;
+            display: inline-block;
+        }
+        .product img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .product img:hover {
+            transform: scale(1.05);
+        }
+        .product .location {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+        .product:hover .location {
+            display: block;
         }
     </style>
 </head>
@@ -21,35 +60,49 @@
 
     <h1>Find Product Location in Store</h1>
 
-    <!-- Search Form -->
-    <input type="text" id="productSearch" placeholder="Enter product name">
-    <button onclick="findProductLocation()">Find Location</button>
-
-    <!-- Display Result -->
-    <div id="result" class="result"></div>
+    <!-- Product Images -->
+    <div class="product-container">
+        <div class="product" onmouseover="showLocation('Oil')">
+            <img src="oil.webp" alt="Oil">
+            <div class="location" id="Oil-location"></div>
+        </div>
+        <div class="product" onmouseover="showLocation('Kids Wear')">
+            <img src="kidswear.webp" alt="Kids Wear">
+            <div class="location" id="Kids-Wear-location"></div>
+        </div>
+        <div class="product" onmouseover="showLocation('Wheat')">
+            <img src="wheat.jpeg" alt="Wheat">
+            <div class="location" id="Wheat-location"></div>
+        </div>
+        <div class="product" onmouseover="showLocation('Appliance')">
+            <img src="appliance.jpg" alt="Appliance">
+            <div class="location" id="Appliance-location"></div>
+        </div>
+        <div class="product" onmouseover="showLocation('Men\'s Wear')">
+            <img src="menswear.jpeg" alt="Men's Wear">
+            <div class="location" id="Mens-Wear-location"></div>
+        </div>
+    </div>
 
     <script>
         // Sample location data for products in the store
         const productLocations = [
-            { name: "Oneplus Earpods", floor: 1, lane: "A", rack: 5 },
-            { name: "Samsung Galaxy", floor: 2, lane: "B", rack: 3 },
-            { name: "Apple iPhone", floor: 1, lane: "C", rack: 2 },
-            { name: "Sony Headphones", floor: 3, lane: "A", rack: 7 },
-            { name: "Dell Laptop", floor: 2, lane: "D", rack: 1 }
+            { name: "Oil", floor: 1, lane: "A", rack: 5 },
+            { name: "Kids Wear", floor: 2, lane: "B", rack: 3 },
+            { name: "Wheat", floor: 1, lane: "C", rack: 2 },
+            { name: "Appliance", floor: 3, lane: "A", rack: 7 },
+            { name: "Men's Wear", floor: 2, lane: "D", rack: 1 }
         ];
 
-        function findProductLocation() {
-            const productName = document.getElementById('productSearch').value.trim();
-            const product = productLocations.find(p => p.name.toLowerCase() === productName.toLowerCase());
-
-            const resultDiv = document.getElementById('result');
+        function showLocation(productName) {
+            const product = productLocations.find(p => p.name === productName);
+            const locationDiv = document.getElementById(`${productName.replace(/'/g, '').replace(/\s+/g, '-')}-location`);
 
             if (product) {
-                resultDiv.textContent = `Product "${product.name}" is located at:
-                    Floor ${product.floor}, Lane ${product.lane}, Rack ${product.rack}.`;
+                locationDiv.textContent = `Floor ${product.floor}, Lane ${product.lane}, Rack ${product.rack}`;
             } else {
-                resultDiv.textContent = "Product not found.";
-                resultDiv.style.color = "red";
+                locationDiv.textContent = "Location not found.";
+                locationDiv.style.backgroundColor = "red";
             }
         }
     </script>
